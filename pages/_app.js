@@ -1,7 +1,19 @@
+import React from 'react'
+import Router from 'next/router'
+import { ProtectRoute } from '../contexts/auth'
+import { AuthProvider } from '../contexts/auth'
 import '../styles/globals.css'
 
 function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+
+    return (
+      <AuthProvider>
+        <ProtectRoute>
+            <Component {...pageProps} />
+        </ProtectRoute>
+      </AuthProvider>
+    )
 }
+
 
 export default MyApp

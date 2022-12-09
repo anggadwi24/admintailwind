@@ -1,0 +1,15 @@
+.container{
+    padding: 8px;
+    box-shadow: 3px 3px 11px 3px #eee;
+   
+}
+
+.list{
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.item{
+    margin: 0px 15px;
+}
