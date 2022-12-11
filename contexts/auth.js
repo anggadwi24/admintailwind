@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null)
     const [level, setLevel] = useState(null)
     
-    const [error,setErrors] = useState(null)
+   
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -36,34 +36,39 @@ export const AuthProvider = ({ children }) => {
         loadUserFromCookies()
     }, [])
 
-    const login = async (email, password) => {
+    const login = async ({setErrors,email,password}) => {
+        setLoading(true);
+
+        setErrors([]);
         api
         .post("/api/login",{email,password})
         .then((res) =>{
-            if(res.data.token){
+            setLoading(false);
+            if(res.data.statusCode == 200){
+                if(res.data.token){
               
               
+                    
                 
+                    Cookies.set('token', res.data.token, { expires: 2147483647 })
+                    api.defaults.headers.Authorization = `Bearer  ${res.data.token}`
+                    setUser(res.data.user)
+                   
+                    router.push("/")
+                    
                 
-                Cookies.set('token', res.data.token, { expires: 2147483647 })
-                api.defaults.headers.Authorization = `Bearer  ${res.data.token}`
-                setUser(res.data.user)
-                setLevel(res.data.user.level)
-                router.push("/")
-            
+                }
+            }else{
+                setErrors(res.data.msg);
+                
             }
-        })
-        .catch(error => {
            
-            if(error.response.status != 401) throw error
-
-            setErrors(error.response.data.message);
-
         })
+        
         
       
     }
-
+   
     const logout = () => {
         api
         .get("/api/logout")
@@ -77,8 +82,7 @@ export const AuthProvider = ({ children }) => {
            
             if(error.response.status != 401) throw error
 
-            setErrors(error.response.data.message);
-
+           
         })
         
     }

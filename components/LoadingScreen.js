@@ -24,7 +24,10 @@ export default function LoadingScreen(){
            
         )
     }else{
-        return <Login/>
+        return <>
+             
+                <Login></Login>
+        </>
     }
    
 }
