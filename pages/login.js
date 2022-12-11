@@ -35,7 +35,7 @@ const Login = () => {
             <>
                 <Head>
                     <title>
-                    Login - Internal
+                            JUAPOS
                     </title>
                 </Head>
                 {loading &&   <div className="relative">

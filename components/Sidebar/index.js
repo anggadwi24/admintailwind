@@ -1,36 +1,105 @@
-export default function Sidebar() {
-  return (
-    <nav aria-label="alternative nav">
-    <div className="bg-gray-800 shadow-xl h-20 fixed bottom-0 mt-12 md:relative md:h-screen z-10 w-full md:w-48 content-center">
+import Link from 'next/link';
+import Image from 'next/image';
 
-        <div className="md:mt-12 md:w-48 md:fixed md:left-0 md:top-0 content-center md:content-start text-left justify-between">
-            <ul className="list-reset flex flex-row md:flex-col pt-3 md:py-3 px-1 md:px-2 text-center md:text-left">
-                <li className="mr-3 flex-1">
-                    <a href="#" className="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-pink-500">
-                        <i className="fas fa-tasks pr-0 md:pr-3"></i><span className="pb-1 md:pb-0 text-xs md:text-base text-gray-400 md:text-gray-200 block md:inline-block">Tasks</span>
-                    </a>
-                </li>
-                <li className="mr-3 flex-1">
-                    <a href="#" className="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-purple-500">
-                        <i className="fa fa-envelope pr-0 md:pr-3"></i><span className="pb-1 md:pb-0 text-xs md:text-base text-gray-400 md:text-gray-200 block md:inline-block">Messages</span>
-                    </a>
-                </li>
-                <li className="mr-3 flex-1">
-                    <a href="#" className="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-blue-600">
-                        <i className="fas fa-chart-area pr-0 md:pr-3 text-blue-600"></i><span className="pb-1 md:pb-0 text-xs md:text-base text-white md:text-white block md:inline-block">Analytics</span>
-                    </a>
-                </li>
-                <li className="mr-3 flex-1">
-                    <a href="#" className="block py-1 md:py-3 pl-0 md:pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-red-500">
-                        <i className="fa fa-wallet pr-0 md:pr-3"></i><span className="pb-1 md:pb-0 text-xs md:text-base text-gray-400 md:text-gray-200 block md:inline-block">Payments</span>
-                    </a>
-                </li>
-            </ul>
+
+export default function Sidebar({user}) {
+   
+  return (
+    <aside className="max-w-62.5 ease-nav-brand z-990 fixed inset-y-0 my-4 ml-4 block w-full -translate-x-full flex-wrap items-center justify-between overflow-y-auto rounded-2xl border-0 bg-white p-0 antialiased shadow-none transition-transform duration-200 xl:left-0 xl:translate-x-0 xl:bg-transparent">
+        <div className="h-19.5">
+        <i className="absolute top-0 right-0 hidden p-4 opacity-50 cursor-pointer fas fa-times text-slate-400 xl:hidden" sidenav-close="true"></i>
+        <Link href="#!" className="block px-8 py-6 m-0 text-sm whitespace-nowrap text-slate-700"  >
+            <img src="/assets/img/logo-ct.png" className="inline h-full max-w-full transition-all duration-200 ease-nav-brand max-h-8" alt="main_logo" />
+            <span className="ml-1 font-semibold transition-all duration-200 ease-nav-brand">Soft UI Dashboard</span>
+        </Link>
+      
         </div>
 
+        <hr className="h-px mt-0 bg-transparent bg-gradient-to-r from-transparent via-black/40 to-transparent" />
 
-    </div>
-</nav>
+        <div className="items-center block w-auto max-h-screen overflow-auto h-sidenav grow basis-full">
+        <ul className="flex flex-col pl-0 mb-0">
+            <li className="mt-0.5 w-full">
+            <a className="py-2.7 shadow-soft-xl text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg bg-white px-4 font-semibold text-slate-700 transition-colors" href="./pages/dashboard.html">
+                <div className="bg-gradient-to-tl from-purple-700 to-pink-500 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
+                
+                </div>
+                <span className="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Dashboard</span>
+            </a>
+            </li>
+
+            <li className="mt-0.5 w-full">
+            <a className="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="./pages/tables.html">
+                <div className="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
+                
+                </div>
+                <span className="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Tables</span>
+            </a>
+            </li>
+
+            <li className="mt-0.5 w-full">
+            <a className="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="./pages/billing.html">
+                <div className="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center fill-current stroke-0 text-center xl:p-2.5">
+                
+                </div>
+                <span className="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Billing</span>
+            </a>
+            </li>
+
+            <li className="mt-0.5 w-full">
+            <a className="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="./pages/virtual-reality.html">
+                <div className="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
+                
+                </div>
+                <span className="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Virtual Reality</span>
+            </a>
+            </li>
+
+            <li className="mt-0.5 w-full">
+            <a className="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="./pages/rtl.html">
+                <div className="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
+                
+                </div>
+                <span className="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">RTL</span>
+            </a>
+            </li>
+
+            <li className="w-full mt-4">
+            <h6 className="pl-6 ml-2 font-bold leading-tight uppercase text-xs opacity-60">Account pages</h6>
+            </li>
+
+            <li className="mt-0.5 w-full">
+            <a className="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="./pages/profile.html">
+                <div className="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
+                
+                </div>
+                <span className="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Profile</span>
+            </a>
+            </li>
+
+            <li className="mt-0.5 w-full">
+            <a className="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="./pages/sign-in.html">
+                <div className="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
+                
+                </div>
+                <span className="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Sign In</span>
+            </a>
+            </li>
+
+            <li className="mt-0.5 w-full">
+            <a className="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="./pages/sign-up.html">
+                <div className="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
+                
+                </div>
+                <span className="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Sign Up</span>
+            </a>
+            </li>
+        </ul>
+        </div>
+
+  
+  </aside>
+
     
   )
 }

@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
             const token = Cookies.get('token')
            
             if (token) {
-                console.log("Got a token in the cookies, let's see if it is valid")
+               
                 api.defaults.headers.Authorization = `Bearer ${token}`
                 const { data: user } = await api.get('api/user')
               
@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }) => {
               
               
                 
-                console.log(res.data);
+                
                 Cookies.set('token', res.data.token, { expires: 2147483647 })
                 api.defaults.headers.Authorization = `Bearer  ${res.data.token}`
                 setUser(res.data.user)

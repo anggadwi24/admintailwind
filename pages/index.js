@@ -10,10 +10,8 @@ const Home = () => {
  
   return (
     <>
-      <Head>
-        <title>Dashboard - JUAPOS</title>
-      </Head>
-      <MainLayout user={user}>
+    
+      <MainLayout user={user} title="Dashboard - JUAPOS">
       <div className="bg-gray-800 pt-3">
           <div className="rounded-tl-3xl bg-gradient-to-r from-blue-900 to-gray-800 p-4 shadow text-2xl text-white">
               <h1 className="font-bold pl-2">Analytics</h1>
