@@ -1,7 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url("https://fonts.googleapis.com/css?family=Ubuntu&display=swap");
 
+html {
+  font-family: Ubuntu, Sans-serif; /* 1 */
+  line-height: 1.5; /* 2 */
+}
 html,
 body {
   padding: 0;

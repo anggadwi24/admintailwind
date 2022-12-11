@@ -15,8 +15,8 @@ import { useAuth } from '../contexts/auth';
 
 const Login = () => {
 
-    const [email,setEmail] = useState(null);
-    const [password,setPassword] = useState(null);
+    const [email,setEmail] = useState('');
+    const [password,setPassword] = useState('');
     const [error,setErrors] = useState([]);
     const {login} = useAuth('/dashboard');
 

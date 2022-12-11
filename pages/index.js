@@ -11,103 +11,109 @@ const Home = () => {
   return (
     <>
     
-      <MainLayout user={user} title="Dashboard - JUAPOS">
-      <div className="bg-gray-800 pt-3">
-          <div className="rounded-tl-3xl bg-gradient-to-r from-blue-900 to-gray-800 p-4 shadow text-2xl text-white">
-              <h1 className="font-bold pl-2">Analytics</h1>
-          </div>
-      </div>
-      <div className="flex flex-wrap">
-          <div className="w-full md:w-1/2 xl:w-1/3 p-6">
-              
-              <div className="bg-gradient-to-b from-green-200 to-green-100 border-b-4 border-green-600 rounded-lg shadow-xl p-5">
-                  <div className="flex flex-row items-center">
-                      <div className="flex-shrink pr-4">
-                          <div className="rounded-full p-5 bg-green-600"><i className="fa fa-wallet fa-2x fa-inverse"></i></div>
+      <MainLayout user={user} title="Dashboard - JUAPOS" page="Dashboard" subpage="">
+        <div className="grid grid-cols-4 gap-6 xl:grid-cols-1">
+
+
+     
+          <div className="report-card">
+              <div className="card">
+                  <div className="card-body flex flex-col">
+                      
+                   
+                      <div className="flex flex-row justify-between items-center">
+                          <div className="h6 text-indigo-700 fad fa-shopping-cart"></div>
+                          <span className="rounded-full text-white badge bg-teal-400 text-xs">
+                              12%
+                              <i className="fal fa-chevron-up ml-1"></i>
+                          </span>
                       </div>
-                      <div className="flex-1 text-right md:text-center">
-                          <h2 className="font-bold uppercase text-gray-600">Total Revenue</h2>
-                          <p className="font-bold text-3xl">$3249 <span className="text-green-500"><i className="fas fa-caret-up"></i></span></p>
-                      </div>
+                    
+                      <div className="mt-8">
+                          <h1 className="h5 num-4"></h1>
+                          <p>items sales</p>
+                      </div>                
+                     
                   </div>
               </div>
-            
+              <div className="footer bg-white p-1 mx-4 border border-t-0 rounded rounded-t-none"></div>
           </div>
-          <div className="w-full md:w-1/2 xl:w-1/3 p-6">
-            
-              <div className="bg-gradient-to-b from-pink-200 to-pink-100 border-b-4 border-pink-500 rounded-lg shadow-xl p-5">
-                  <div className="flex flex-row items-center">
-                      <div className="flex-shrink pr-4">
-                          <div className="rounded-full p-5 bg-pink-600"><i className="fas fa-users fa-2x fa-inverse"></i></div>
+       
+          <div className="report-card">
+              <div className="card">
+                  <div className="card-body flex flex-col">
+                      
+                    
+                      <div className="flex flex-row justify-between items-center">
+                          <div className="h6 text-red-700 fad fa-store"></div>
+                          <span className="rounded-full text-white badge bg-red-400 text-xs">
+                              6%
+                              <i className="fal fa-chevron-down ml-1"></i>
+                          </span>
                       </div>
-                      <div className="flex-1 text-right md:text-center">
-                          <h2 className="font-bold uppercase text-gray-600">Total Users</h2>
-                          <p className="font-bold text-3xl">249 <span className="text-pink-500"><i className="fas fa-exchange-alt"></i></span></p>
-                      </div>
+                    
+                      <div className="mt-8">
+                          <h1 className="h5 num-4"></h1>
+                          <p>new orders</p>
+                      </div>                
+                    
                   </div>
               </div>
-            
+              <div className="footer bg-white p-1 mx-4 border border-t-0 rounded rounded-t-none"></div>
           </div>
-          <div className="w-full md:w-1/2 xl:w-1/3 p-6">
-              
-              <div className="bg-gradient-to-b from-yellow-200 to-yellow-100 border-b-4 border-yellow-600 rounded-lg shadow-xl p-5">
-                  <div className="flex flex-row items-center">
-                      <div className="flex-shrink pr-4">
-                          <div className="rounded-full p-5 bg-yellow-600"><i className="fas fa-user-plus fa-2x fa-inverse"></i></div>
+        
+          <div className="report-card">
+              <div className="card">
+                  <div className="card-body flex flex-col">
+                      
+                    
+                      <div className="flex flex-row justify-between items-center">
+                          <div className="h6 text-yellow-600 fad fa-sitemap"></div>
+                          <span className="rounded-full text-white badge bg-teal-400 text-xs">
+                              72%
+                              <i className="fal fa-chevron-up ml-1"></i>
+                          </span>
                       </div>
-                      <div className="flex-1 text-right md:text-center">
-                          <h2 className="font-bold uppercase text-gray-600">New Users</h2>
-                          <p className="font-bold text-3xl">2 <span className="text-yellow-600"><i className="fas fa-caret-up"></i></span></p>
-                      </div>
+                     
+                      <div className="mt-8">
+                          <h1 className="h5 num-4"></h1>
+                          <p>total Products</p>
+                      </div>                
+                   
+
                   </div>
               </div>
-            
+              <div className="footer bg-white p-1 mx-4 border border-t-0 rounded rounded-t-none"></div>
           </div>
-          <div className="w-full md:w-1/2 xl:w-1/3 p-6">
-              
-              <div className="bg-gradient-to-b from-blue-200 to-blue-100 border-b-4 border-blue-500 rounded-lg shadow-xl p-5">
-                  <div className="flex flex-row items-center">
-                      <div className="flex-shrink pr-4">
-                          <div className="rounded-full p-5 bg-blue-600"><i className="fas fa-server fa-2x fa-inverse"></i></div>
+         
+          <div className="report-card">
+              <div className="card">
+                  <div className="card-body flex flex-col">
+                      
+                  
+                      <div className="flex flex-row justify-between items-center">
+                          <div className="h6 text-green-700 fad fa-users"></div>
+                          <span className="rounded-full text-white badge bg-teal-400 text-xs">
+                              150%
+                              <i className="fal fa-chevron-up ml-1"></i>
+                          </span>
                       </div>
-                      <div className="flex-1 text-right md:text-center">
-                          <h2 className="font-bold uppercase text-gray-600">Server Uptime</h2>
-                          <p className="font-bold text-3xl">152 days</p>
-                      </div>
+                    
+
+                  
+                      <div className="mt-8">
+                          <h1 className="h5 num-4"></h1>
+                          <p>new Visitor</p>
+                      </div>                
+                    
+
                   </div>
               </div>
-            
+              <div className="footer bg-white p-1 mx-4 border border-t-0 rounded rounded-t-none"></div>
           </div>
-          <div className="w-full md:w-1/2 xl:w-1/3 p-6">
-              
-              <div className="bg-gradient-to-b from-indigo-200 to-indigo-100 border-b-4 border-indigo-500 rounded-lg shadow-xl p-5">
-                  <div className="flex flex-row items-center">
-                      <div className="flex-shrink pr-4">
-                          <div className="rounded-full p-5 bg-indigo-600"><i className="fas fa-tasks fa-2x fa-inverse"></i></div>
-                      </div>
-                      <div className="flex-1 text-right md:text-center">
-                          <h2 className="font-bold uppercase text-gray-600">To Do List</h2>
-                          <p className="font-bold text-3xl">7 tasks</p>
-                      </div>
-                  </div>
-              </div>
-            
-          </div>
-          <div className="w-full md:w-1/2 xl:w-1/3 p-6">
-            
-              <div className="bg-gradient-to-b from-red-200 to-red-100 border-b-4 border-red-500 rounded-lg shadow-xl p-5">
-                  <div className="flex flex-row items-center">
-                      <div className="flex-shrink pr-4">
-                          <div className="rounded-full p-5 bg-red-600"><i className="fas fa-inbox fa-2x fa-inverse"></i></div>
-                      </div>
-                      <div className="flex-1 text-right md:text-center">
-                          <h2 className="font-bold uppercase text-gray-600">Issues</h2>
-                          <p className="font-bold text-3xl">3 <span className="text-red-500"><i className="fas fa-caret-up"></i></span></p>
-                      </div>
-                  </div>
-              </div>
-            
-          </div>
+
+
+
       </div>
       </MainLayout>
     </>
