@@ -6,11 +6,11 @@ export default function LoadingScreen(){
 
     const { user, loading } = useAuth();
 
-    if(user && !loading){
+    if(loading){
         return (
             <>
                 <Head>
-                    <title>Kasir Jua</title>
+                    <title>JUAPOS</title>
                 </Head>
                 <div className="relative">
                     <div className="absolute inset-0 h-screen flex">

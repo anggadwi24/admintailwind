@@ -1,72 +1,198 @@
 
 import { useAuth } from '../../contexts/auth';
 import MainLayout from '../../layouts/MainLayout';
+import Input from '../../components/Input';
+import Select from '../../components/Select';
 
-
+import { useRouter } from "next/router";
+import { useState } from 'react';
+import Button from '../../components/Button';
+import Cookies from 'js-cookie';
+import api from '../../lib/Api';
+import Success from '../../components/Success';
 const Add = ()=>{
-    const {user} = useAuth();
-    return (
-        <MainLayout user={user} title="Users - JUAPOS" page="Users" subpage="Add users">
-               <div className="rounded-t-lg overflow-hidden border-t border-l border-r border-gray-400 flex justify-center p-8">
+    const {user,level} = useAuth();
+    const [email,setEmail] = useState('');
+    const [name,setName] = useState('');
+    const [password,setPassword] = useState('');
+    const [levels,setLevel] = useState('');
+    const [loading,setLoading] = useState(false);
+    const [error,setError] = useState([]);
+    const [success,setSuccess] = useState(null);
 
-                <form className="w-full max-w-lg">
-  <div className="flex flex-wrap -mx-3 mb-6">
-    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
-        First Name
-      </label>
-      <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Jane"/>
-      <p className="text-red-500 text-xs italic">Please fill out this field.</p>
-    </div>
-    <div className="w-full md:w-1/2 px-3">
-      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
-        Last Name
-      </label>
-      <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Doe"/>
-    </div>
-  </div>
-  <div className="flex flex-wrap -mx-3 mb-6">
-    <div className="w-full px-3">
-      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
-        Password
-      </label>
-      <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="password" placeholder="******************"/>
-      <p className="text-gray-600 text-xs italic">Make it as long and as crazy as you'd like</p>
-    </div>
-  </div>
-  <div className="flex flex-wrap -mx-3 mb-2">
-    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-city">
-        City
-      </label>
-      <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="text" placeholder="Albuquerque"/>
-    </div>
-    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
-        State
-      </label>
-      <div className="relative">
-        <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
-          <option>New Mexico</option>
-          <option>Missouri</option>
-          <option>Texas</option>
-        </select>
-        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-          <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-        </div>
-      </div>
-    </div>
-    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-zip">
-        Zip
-      </label>
-      <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip" type="text" placeholder="90210"/>
-    </div>
-  </div>
-</form>
+    
+    const submitHandler = (e)=>{
+      setLoading(true);
+      e.preventDefault();
+
+      const token = Cookies.get('token')
+      api.defaults.headers.Authorization = `Bearer ${token}`
+      api
+      .post("/api/users/add",{name,email,password,level})
+      .then((res) =>{
+          setLoading(false);
+          if(res.data.statusCode == 200){
+            setError([]);
+            setName('');
+            setEmail('');
+            setPassword('');
+            setLevel('');
+
+            setSuccess(res.data.message);
+
+            
+          }else{
+            setError(res.data.message)
+          }
+         
+      })
+    }
+   
+    if(level == 'admin'){
+      return (
+          <MainLayout user={user} title="Users - JUAPOS" page="Users" subpage="Add users">
+                
+                <div className='flex justify-between mb-8'>
+      
+                    <h4 className="mt-3 text-lg font-semibold text-gray-600 dark:text-gray-300">
+                      Add Users
+                    </h4>
+                  
                 </div>
-        </MainLayout>
-    )
+                
+                <div className="px-4 py-3 mb-8  bg-white rounded-lg shadow-md dark:bg-gray-800">
+             
+                  {success && <Success message={success}></Success>}
+                <form onSubmit={submitHandler}>
+
+
+              
+                <label className="block text-sm mb-4 mt-4">
+                  <span className="text-gray-700 dark:text-gray-400">
+                    Name
+                  </span>
+                  <Input 
+                    type="text" 
+                    className={ error && error.name ? 'border-red-600 block w-full mt-1 text-sm  dark:text-gray-300 dark:bg-gray-700 focus:border-red-400 focus:outline-none focus:shadow-outline-red input input-sm' : 'border-indigo-100 block w-full mt-1 text-sm border-red-600 dark:text-gray-300 dark:bg-gray-700 focus:border-indigo-400 focus:outline-none focus:shadow-outline-red input input-sm' }
+                    id="name" 
+                    placeholder="Insert name"
+
+                    value={name} onChange={(e) => setName(e.target.value)}
+                  >
+                  
+                  </Input>
+                  {error && error.name  &&
+                    error.name.map((index) => {
+                      return (
+                        <span className="text-xs text-red-600 dark:text-red-400" key={index}>
+                         {error.name}
+                        </span>
+                      )
+                    })
+                  
+                  }
+                 
+                </label>
+
+                <label className="block text-sm mb-4">
+                  <span className="text-gray-700 dark:text-gray-400">
+                    Email
+                  </span>
+                  <Input 
+                    type="email" 
+                    className={error && error.email ? `border-red-600 block w-full mt-1 text-sm border-red-600 dark:text-gray-300 dark:bg-gray-700 focus:border-red-400 focus:outline-none focus:shadow-outline-red input input-sm` : `border-indigo-100 block w-full mt-1 text-sm border-red-600 dark:text-gray-300 dark:bg-gray-700 focus:border-indigo-400 focus:outline-none focus:shadow-outline-red input input-sm` } 
+                    id="email"
+                    placeholder="Insert email"
+                    error={error.email}
+                    value={email} onChange={(e) => setEmail(e.target.value)}
+                  >
+                  
+                  </Input>
+
+                  {error && error.email && 
+                    error.email.map((index) => {
+                      return (
+                        <span className="text-xs text-red-600 dark:text-red-400" key={index}>
+                         {error.email}
+                        </span>
+                      )
+                    })
+                  
+                  }
+                </label>
+
+                <label className="block text-sm mb-4">
+                  <span className="text-gray-700 dark:text-gray-400">
+                    Password
+                  </span>
+                  <Input 
+                    type="password" 
+                    className={error && error.password ? `border-red-600 block w-full mt-1 text-sm border-red-600 dark:text-gray-300 dark:bg-gray-700 focus:border-red-400 focus:outline-none focus:shadow-outline-red input input-sm` : `border-indigo-100 block w-full mt-1 text-sm border-red-600 dark:text-gray-300 dark:bg-gray-700 focus:border-indigo-400 focus:outline-none focus:shadow-outline-red input input-sm` } 
+                    id="password"
+                    placeholder="Insert password"
+                    value={password} onChange={(e) => setPassword(e.target.value)}  
+                  >
+                  
+                  </Input>
+
+                  {error && error.password &&
+                    error.password.map((index) => {
+                      return (
+                        <span className="text-xs text-red-600 dark:text-red-400" key={index}>
+                         {error.password}
+                        </span>
+                      )
+                    })
+                  
+                  }
+                </label>
+
+                <label className="block text-sm mb-4">
+                  <span className="text-gray-700 dark:text-gray-400">
+                    Level
+                  </span>
+                  <Select 
+
+                    className={error && error.level ? 'block w-full mt-1 text-sm text-black border-red-600 dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-red-600 focus:outline-none focus:shadow-outline-danger dark:focus:shadow-outline-gray input input-sm' : 'block w-full mt-1 text-sm text-black border-indigo-100 dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray input input-sm'}
+                    id="level"
+                    onChange={(e) => setLevel(e.target.value)}
+                  >
+                      <option value='admin' {...levels == 'admin' && checked}>Admin</option>
+                      <option value='user' {...levels == 'user' && checked}>User</option>
+
+                  </Select>
+
+                  {error && error.level &&
+                    error.level.map((index) => {
+                      return (
+                        <span className="text-xs text-red-600 dark:text-red-400" key={index}>
+                         {error.level}
+                        </span>
+                      )
+                    })
+                  
+                  }
+                </label>
+                {!loading &&  <Button className="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Submit</Button> }
+                {loading && <Button className="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple loading">Loading</Button>}
+               
+                </form>
+              
+              
+              </div>
+          </MainLayout>
+      )
+    }else{
+      useEffect(() => {
+           
+        router.push({
+            pathname: '/',
+            query: { name: 'Someone' }
+        }, '/');
+        
+      }, [list.message]);
+    }
+    
 }
 
 export default Add;

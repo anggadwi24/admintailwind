@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null)
     const [level, setLevel] = useState(null)
     
-   
+    const [error,setError] = useState([]);
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -30,6 +30,7 @@ export const AuthProvider = ({ children }) => {
               
                 if (user) setUser(user);
                     setLevel(user.level);
+                   
             }
             setLoading(false)
         }
@@ -76,7 +77,7 @@ export const AuthProvider = ({ children }) => {
             Cookies.remove('token')
             setUser(null)
             delete api.defaults.headers.Authorization
-            window.location.pathname = '/login'
+           router.push('/login')
         })
         .catch(error => {
            
@@ -89,7 +90,7 @@ export const AuthProvider = ({ children }) => {
 
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated: !!user, user, login, loading, logout,level }}>
+        <AuthContext.Provider value={{ isAuthenticated: !!user, user, login, loading, logout,level,error,setError }}>
             {children}
         </AuthContext.Provider>
     )
@@ -102,6 +103,7 @@ export const ProtectRoute = ({ children }) => {
     const routers = useRouter();
     const { isAuthenticated, isLoading } = useAuth();
     if (isLoading || (!isAuthenticated )){
+        
        return <LoadingScreen/>
     }else{
         return children;

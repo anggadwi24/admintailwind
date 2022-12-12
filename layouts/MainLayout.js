@@ -27,14 +27,19 @@ const MainLayout = ({children,user,title,page,subpage}) =>{
                 <Sidebar user={user} isSideMenuOpen={isSideMenuOpen}/>
                 <div className="flex flex-col flex-1 w-full">
                     <Navbar props={{user,setIsSideMenuOpen,isSideMenuOpen}} ></Navbar>
+                    <main className="h-full overflow-y-auto">
+                        <div className="container px-6 mx-auto grid">
+                            <h2
+                                className="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"
+                            >
+                                {page}
+                            </h2>
+                            {children}
+                        </div>
+                    </main>
                 </div>
-                {/* <div className="bg-gray-100 flex-1 p-6 md:mt-16">
-                    <h1 className="h5">{page}</h1>
-                    <p>{subpage}</p>
-                    <hr className="my-5"/>
-                    {children}
-
-                </div> */}
+               
+              
                         
                  
                 
@@ -43,7 +48,7 @@ const MainLayout = ({children,user,title,page,subpage}) =>{
            
 
           
-            {/* <Script src="/assets/js/scripts.js" ></Script>  */}
+          
         
         </>
     )
