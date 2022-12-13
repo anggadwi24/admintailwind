@@ -72,7 +72,7 @@ const Login = () => {
                                     </h1>
                                     <label className="block text-sm">
                                         <span className="text-gray-700 dark:text-gray-400">Email</span>
-                                        <Input className="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-inpu" type="email" id="asdas1230918s" placeholder="Masukan email" value={email} onChange={(e) => setEmail(e.target.value)}></Input>
+                                        <Input className="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray input" type="email" id="asdas1230918s" placeholder="Masukan email" value={email} onChange={(e) => setEmail(e.target.value)}></Input>
                                         {error && error.email &&
                                         error.email.map((index) => {
                                             return (
@@ -88,7 +88,7 @@ const Login = () => {
                                     </label>
                                     <label className="block mt-4 text-sm">
                                         <span className="text-gray-700 dark:text-gray-400">Password</span>
-                                        <Input className="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"  type="password" id="jasnczxk71239sad" placeholder="Masukan passoword" value={password} onChange={(e) => setPassword(e.target.value)}></Input>
+                                        <Input className="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray input"  type="password" id="jasnczxk71239sad" placeholder="Masukan passoword" value={password} onChange={(e) => setPassword(e.target.value)}></Input>
 
                                         {error && error.password &&
                                             error.password.map((index) => {
