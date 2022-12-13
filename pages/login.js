@@ -20,7 +20,7 @@ const Login = () => {
     const [password,setPassword] = useState('');
     const [error,setErrors] = useState([]);
     const {login} = useAuth();
-
+    
     const { user, loading } = useAuth();
    
     const submitHandler = async ( e) =>{

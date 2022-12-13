@@ -1,7 +1,7 @@
 
 
 const Success = ({message}) =>{
-    console.log(message)
+
     return (
        
                     <div className="alert alert-success shadow-lg">

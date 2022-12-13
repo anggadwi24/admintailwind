@@ -18,7 +18,7 @@ const MainLayout = ({children,user,title,page,breadcrumb = []}) =>{
            
            
         </HeadMeta>
-        {/* <Navbar user={user}></Navbar> */}
+        
        
             <div
                 className={`flex h-screen bg-gray-50 dark:bg-gray-900  ${condition}`}
@@ -47,6 +47,7 @@ const MainLayout = ({children,user,title,page,breadcrumb = []}) =>{
                
             </div>
             <div id="modal-root"></div>
+           
 
             <Script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"></Script>
             <Script src="/assets/js/init-alpine.js"></Script>
