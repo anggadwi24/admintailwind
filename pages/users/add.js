@@ -2,14 +2,14 @@
 import { useAuth } from '../../contexts/auth';
 import MainLayout from '../../layouts/MainLayout';
 import Input from '../../components/Input';
-import Select from '../../components/Select';
-
 import { useRouter } from "next/router";
 import { useState } from 'react';
 import Button from '../../components/Button';
 import Cookies from 'js-cookie';
 import api from '../../lib/Api';
 import Success from '../../components/Success';
+
+
 const Add = ()=>{
     const {user,level} = useAuth();
     const [email,setEmail] = useState('');
@@ -19,7 +19,7 @@ const Add = ()=>{
     const [loading,setLoading] = useState(false);
     const [error,setError] = useState([]);
     const [success,setSuccess] = useState(null);
-
+    const breadcrumb = [{'name':'User','url':'/users'},{'name':'Add','url':'#'}];
     
     const submitHandler = (e)=>{
       setLoading(true);
@@ -50,17 +50,17 @@ const Add = ()=>{
    
     if(level == 'admin'){
       return (
-          <MainLayout user={user} title="Users - JUAPOS" page="Users" subpage="Add users">
+          <MainLayout user={user} title="Users - JUAPOS" page="Users" breadcrumb={breadcrumb}>
                 
-                <div className='flex justify-between mb-8'>
+                <div className='flex justify-between mb-3'>
       
-                    <h4 className="mt-3 text-lg font-semibold text-gray-600 dark:text-gray-300">
-                      Add Users
-                    </h4>
+                  <h4 className="mb-4 text-lg font-semibold text-gray-400 dark:text-gray-300">
+                            Add Users
+                  </h4>
                   
                 </div>
                 
-                <div className="px-4 py-3 mb-8  bg-white rounded-lg shadow-md dark:bg-gray-800">
+                <div className="px-4 py-3   bg-white rounded-lg shadow-md dark:bg-gray-800">
              
                   {success && <Success message={success}></Success>}
                 <form onSubmit={submitHandler}>
@@ -151,16 +151,16 @@ const Add = ()=>{
                   <span className="text-gray-700 dark:text-gray-400">
                     Level
                   </span>
-                  <Select 
+                  <select 
 
                     className={error && error.level ? 'block w-full mt-1 text-sm text-black border-red-600 dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-red-600 focus:outline-none focus:shadow-outline-danger dark:focus:shadow-outline-gray input input-sm' : 'block w-full mt-1 text-sm text-black border-indigo-100 dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray input input-sm'}
-                    id="level"
+                    id="level" name="level" value={levels}
                     onChange={(e) => setLevel(e.target.value)}
                   >
-                      <option value='admin' {...levels == 'admin' && checked}>Admin</option>
-                      <option value='user' {...levels == 'user' && checked}>User</option>
+                         <option value='admin' {...levels == 'admin' ? 'checked':''}>Admin</option>
+                        <option value='user' {...levels == 'user' ? 'checked':''}>User</option>
 
-                  </Select>
+                  </select>
 
                   {error && error.level &&
                     error.level.map((index) => {
@@ -183,14 +183,10 @@ const Add = ()=>{
           </MainLayout>
       )
     }else{
-      useEffect(() => {
-           
-        router.push({
-            pathname: '/',
-            query: { name: 'Someone' }
-        }, '/');
-        
-      }, [list.message]);
+      router.push({
+        pathname: '/',
+        query: { name: 'Someone' }
+      }, '/');
     }
     
 }

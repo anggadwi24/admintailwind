@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useAuth } from '../../contexts/auth';
 export default function Sidebar({users,...props}) {
   const {user,loading,level } = useAuth();
-
+ 
   const router = useRouter();
 
   const menu = [
@@ -43,9 +43,9 @@ export default function Sidebar({users,...props}) {
   return (
     <>
      <aside
-        className="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0 "
+        className="z-20 hidden w-64 overflow-y-auto bg-white shadow-md dark:bg-gray-800 md:block flex-shrink-0 "
       >
-        <div className="py-4 text-gray-500 dark:text-gray-400">
+        <div className="py-4 text-grey-100 dark:text-gray-400">
           <Link  className="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200"
             href="/">
               JUAPOS
