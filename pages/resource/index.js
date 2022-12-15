@@ -1,20 +1,25 @@
 import MainLayout from "../../layouts/MainLayout"
 import { useAuth } from '../../contexts/auth';
 import React, { useState, useEffect } from 'react'
-import api from '../../lib/Api';
 import Link from 'next/link';
 import useSWR from "swr";
 import axios from "axios";
 import Cookies from "js-cookie";
+import Router, { useRouter } from 'next/router';
+import Modal from "../../components/Modal";
 
 const fetcher = (url,token) => axios.get(url,{headers:{ Authorization: "Bearer " + token } }).then(res => res.data)
 
-const Index = () => {
+const Index = (props) => {
     const breadcrumb = [{'name':'Resource','url':'/resource'}];
     const {user} = useAuth();
     const token = Cookies.get('token');
-   
+    const router = useRouter();
+    const [showModal,setShowModal] = useState(false);
     const {data,error} = useSWR(['https://kasirku.juastudio.com/api/resource',token],fetcher);
+    const { query } = useRouter();
+
+   
     if(!data){
        
         return (
@@ -30,6 +35,14 @@ const Index = () => {
            
         
     }
+    {query['success'] &&  console.log(query['message'])}
+
+    if(data && data.statusCode != 200){
+        return { 
+            notFound: true
+          }
+    }
+  
   return (
         <MainLayout  user={user} title="Resource - JUAPOS" page="Resource" breadcrumb={breadcrumb}>
              <div className='flex justify-between mb-4'>
@@ -44,7 +57,57 @@ const Index = () => {
 
                 </Link>
             </div>
+            <div className="w-full mb-8 overflow-hidden rounded-lg shadow-xs">
+                <div className="w-full overflow-x-auto">
+                    <table className="w-full whitespace-no-wrap">
+                        <thead className="bg-white border-b">
+                            <tr className='text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800'>
+                            <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                No
+                            </th>
+                            <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                Name
+                            </th>
+                            <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                Description
+                            </th>
+                           
+                            <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                #
+                            </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          {data.record.data.length > 0 && 
+                          data.record.data.map( (value,index) => {
+                           
+                            return (
+                                <tr className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100" key={value.slug}>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index+1}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" dangerouslySetInnerHTML={{ __html: value.name }}></td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" dangerouslySetInnerHTML={{ __html: value.description }}></td>
+                                    <td>
+                                         <div className="flex items-center space-x-4 text-sm">
+                                            <Link href={'resource/edit/'+[value.slug]} className="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
+                                                <svg className="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
+                                                </svg>
+                                            </Link>
+                                        </div>
+                                    </td>
+                                </tr>
+                            )
+                          })
+                           
+                          }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
           
+       
+
+       
         </MainLayout>
   )
 }
