@@ -32,7 +32,7 @@ const Index = (props) => {
             setMessage(query['message'])
             setShowToast(true);
         }
-    })
+    },[page])
    const handleCloseToast = () =>{
         setShowToast(false);
         setMessage(null)
@@ -69,7 +69,7 @@ const Index = (props) => {
  
   if(data){
     
-  
+
   return (
         <MainLayout  user={user} title="Resource - JUAPOS" page="Resource" breadcrumb={breadcrumb}>
              <div className='flex justify-between mb-4'>
@@ -84,7 +84,7 @@ const Index = (props) => {
 
                 </Link>
             </div>
-            <div className="w-full mb-8 overflow-hidden rounded-lg shadow-xs">
+            <div className="w-full mb-2 overflow-hidden rounded-lg shadow-xs">
                 <div className="w-full overflow-x-auto">
                     <table className="w-full whitespace-no-wrap">
                         <thead className="bg-white border-b">
@@ -129,11 +129,39 @@ const Index = (props) => {
                           }
                         </tbody>
                     </table>
-
+                   
                 </div>
-            
+                          
             </div>
-           
+            {data.record.links && 
+                <div className="w-full  py-8 overflow-hidden rounded-lg shadow-xs">
+                  
+                       <ul className="flex justify-center  -space-x-px">
+
+                  {data.record.links.map( (value,index) => {
+                    
+                       return (
+                           <li key={index}>
+                                {data.record.current_page == value.label &&  
+                                     <a  aria-current="page"  className="h-10 px-5 py-5 text-indigo-600 transition-colors duration-150  rounded-r-lg focus:shadow-outline bg-indigo-100" dangerouslySetInnerHTML={{ __html: value.label }}></a>
+                                }
+                                {data.record.current_page != value.label && 
+                                    
+                                     <Link href={`resource?page=${value.label}`} onClick={()=>setPage(value.label)} className="h-10 px-5 py-5 text-indigo-600 transition-colors duration-150 bg-white rounded-r-lg focus:shadow-outline hover:bg-indigo-100" dangerouslySetInnerHTML={{ __html: value.label }}></Link>
+
+                                }
+                              
+                           </li>
+                          
+                       )
+                   })
+                   }
+                       </ul>
+                  
+                </div>
+                  
+                  
+               }
             {showToast &&  <div id="toast-success" className="flex absolute top-20 right-5 items-center p-4 mb-4 w-full max-w-xs text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
                 
                 <div className="inline-flex flex-shrink-0 justify-center items-center w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
