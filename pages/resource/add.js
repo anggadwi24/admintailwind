@@ -34,7 +34,7 @@ const Add = () => {
            
             if(res.data.statusCode == 200){
                 router.push(
-                    { pathname: "/resource", query: { message: "Resource successfuly created",success:true } },"/resource?success=true"
+                    { pathname: "/resource", query: { message: "Resource successfuly created",type:'success' } },"/resource?type=success"
                    
                   );
             }else{

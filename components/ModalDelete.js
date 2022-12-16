@@ -7,7 +7,7 @@ import Modals from "./Modal";
 import ModalLoading from "./ModalLoading";
 
 
-const Modal = ({ show, onClose, children, title,url,...props }) => {
+const Modal = ({ show, onClose,setSuccess, children, title,url,...props }) => {
   const [isBrowser, setIsBrowser] = useState(false);
   const [type,setType] = useState(null);
   const [message,setMessage] = useState(null);
@@ -30,7 +30,7 @@ const Modal = ({ show, onClose, children, title,url,...props }) => {
     onClose();
   };
 
-  const handleSubmit = () =>{
+  const handleSubmit = async () =>{
     setLoading(true);
     const token = Cookies.get('token');
       api.defaults.headers.Authorization = `Bearer ${token}`
@@ -44,7 +44,8 @@ const Modal = ({ show, onClose, children, title,url,...props }) => {
               setType('success');
               setMessage('Users successfully deleted');
               setTitles('Successfull');  
-
+              setSuccess(true);
+              
              
 
             
@@ -52,6 +53,8 @@ const Modal = ({ show, onClose, children, title,url,...props }) => {
             setType('error');
             setMessage(res.data.message);
             setTitles('Warning!');  
+            setSuccess(false);
+
            
             
           }

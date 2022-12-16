@@ -19,12 +19,15 @@ const Users = (props) =>{
     const breadcrumb = [{'name':'User','url':'/users'}];
     const [showModal,setShowModal] = useState(false);
     const [selectEmail,setSelectEmail] = useState(null);
+    const [success,setSuccess] = useState(false);
     // const [refreshData,setRefreshData] = useState(false);
     // const refreshProps = () => router.replace(router.asPath);
     // useEffect(() => {
     //     setRefreshData(false);
     // })
-
+    if(success){
+        router.replace(router.asPath);
+    }
  
   
 
@@ -139,7 +142,7 @@ const Users = (props) =>{
                         
                         <ModalDelete
                             onClose={() => setShowModal(false)}
-                           
+                            setSuccess={setSuccess}
                             show={showModal} title={'Warning!'} url={'/api/users/delete/'+selectEmail}
                            
                         >
