@@ -10,6 +10,10 @@ import Button from "../../../../components/Button";
 import Textarea from "../../../../components/Textarea";
 import Label from "../../../../components/Label";
 import Input from "../../../../components/Input";
+import Select from "../../../../components/Select";
+import api from "../../../../lib/Api";
+
+
 
 
 
@@ -21,17 +25,61 @@ const Add = () => {
     const router = useRouter();
     const {slug} = router.query;
     const token = Cookies.get('token');
-    const [name,setName] = useState([]);
-    const [price,setPrice] = useState([]);
-    const [discount,setDiscount] = useState([]);
-    const [duration,setDuration] = useState([]);
+   
+   
     const [loading,setLoading] = useState(false);
     const [errors,setError] = useState([]);
-    console.log(name);
+    const [layout,setLayout] = useState([1]);
 
+
+    
+  
+    
+    const handleIncrement = () =>{
+       
+        setLayout([...layout,1]);
+        
+    }
+
+    const handleDecrement = ()=>{
+       
+        setLayout(layout.splice(layout.length-1,1))
+        
+
+    }
+  
+    
     const {data,error,mutate} = useSWR([`https://kasirku.juastudio.com/api/feature/edit/${slug}`,token],fetcher);
-    const submitHandler = (e) => {
+    const submitHandler = async (e) => {
         e.preventDefault();
+        const nameArr  = [];
+        const priceArr = [];
+        const durationArr = [];
+        const discountArr = [];
+        for (let i = 0; i <  document.getElementsByName('name[]').length; i++) {
+           
+            nameArr.push(document.getElementsByName('name[]')[i].value)
+            priceArr.push(document.getElementsByName('price[]')[i].value)
+            durationArr.push(document.getElementsByName('duration[]')[i].value)
+            discountArr.push(document.getElementsByName('discount[]')[i].value)
+
+        }
+ 
+
+        
+       
+
+       
+        api.defaults.headers.Authorization = `Bearer ${token}`
+        api
+        .post(`/api/feature/store/price/${slug}`,{name:nameArr,duration:durationArr,price:priceArr,discount:discountArr})
+        .then((res) =>{
+            
+            setLoading(false)
+           
+           console.log(res)
+        })
+
         
     }
     if(!data){
@@ -103,65 +151,97 @@ const Add = () => {
                         <span className="ml-2"> Resource </span>
                     </li>
                 </ol>
+                <div className="px-4 py-3  flex flex-row-reverse">
+                    <Button  onClick={ () => handleIncrement()} className=" inline-block px-6 py-2.5 bg-blue-400 text-white font-medium text-xs leading-tight rounded-full shadow-md hover:bg-blue-800 hover:shadow-lg focus:bg-blue-800  focus:outline-none focus:ring-0 transition duration-150 uppercase ">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                        </svg>
+                    </Button>
+                    {layout.length > 1 && 
+                    <Button  onClick={ () => handleDecrement()} className=" inline-block px-6 py-2.5 mx-4 bg-yellow-400 text-white font-medium text-xs leading-tight rounded-full shadow-md hover:bg-yellow-800 hover:shadow-lg focus:bg-yellow-800  focus:outline-none focus:ring-0 transition duration-150 uppercase ">
+                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12h-15" />
+                        </svg>
+                    </Button>
+                    }
+                </div>
                 <div className="px-4 py-3   bg-white rounded-lg shadow-md dark:bg-gray-800">
                     <form onSubmit={submitHandler}>
-                        <div className="flex flex-no-wrap">
-                            <Label className="w-2/5 block text-sm mb-4 mt-4">
-                                <span className="text-gray-700 dark:text-gray-400">
-                                    Name
-                                </span>
-                                <Input 
-                                    type="text" 
-                                    className={ (errors && errors.name ? "border-red-400 bg-red-100 focus:border-red-700": "border-indigo-100 focus:border-indigo-400") + " block w-full  mt-1 text-sm dark:text-gray-300 dark:bg-gray-700  focus:outline-none focus:shadow-outline-red input input-sm"}
-
-                                    placeholder="Insert price name"
-                                    onChange={(e) => setName([e.target.value])}
-                                    disabled={loading == false ? '':true}
-                                    value={name}
-
-                                    
-                                >
-                                
-                                </Input>
-                                {errors && errors.name &&
-                                    errors.name.map((value,index) => {
-                                        return (
-                                            <p className="mt-2 text-sm text-red-600 dark:text-red-500" key={index}><span className="font-medium">Oops!</span> {value} </p>
-                                        )
-                                    })
-                                }
-                                
-                                
-                            </Label>
-                            <Label className="w-2/5 block text-sm mb-4 mt-4 mx-4">
-                                <span className="text-gray-700 dark:text-gray-400">
-                                    Name
-                                </span>
-                                <Input 
-                                    type="text" 
-                                    className={ (errors && errors.name ? "border-red-400 bg-red-100 focus:border-red-700": "border-indigo-100 focus:border-indigo-400") + " block w-full  mt-1 text-sm dark:text-gray-300 dark:bg-gray-700  focus:outline-none focus:shadow-outline-red input input-sm"}
-
-                                    placeholder="Insert price name"
-                                    onChange={(e) => setName([e.target.value])}
-                                    disabled={loading == false ? '':true}
-                                    value={name}
-
-                                    
-                                >
-                                
-                                </Input>
-                                {errors && errors.name &&
-                                    errors.name.map((value,index) => {
-                                        return (
-                                            <p className="mt-2 text-sm text-red-600 dark:text-red-500" key={index}><span className="font-medium">Oops!</span> {value} </p>
-                                        )
-                                    })
-                                }
-                                
-                                
-                            </Label>
-                        </div>
                         
+                        {layout.map( (value,index) => {
+                            
+                            return (
+                                <div key={index}>
+                                <div className="flex flex-no-wrap">
+                                    <Label className="w-2/5 block text-sm mb-4 mt-4">
+                                        <span className="text-gray-700 dark:text-gray-400">
+                                            Name
+                                        </span>
+                                        <Input 
+                                            type="text" 
+                                            className={ "border-indigo-100 focus:border-indigo-400 block w-full  mt-1 text-sm dark:text-gray-300 dark:bg-gray-700  focus:outline-none focus:shadow-outline-red input input-sm"}
+                                            name="name[]"
+                                            key={index}
+                                            placeholder="Insert price name"
+                                           
+                                            disabled={loading == false ? '':true}
+                                            
+                                        >
+                                        </Input>
+                                    </Label>
+                                    <Label className="w-2/5 block text-sm mb-4 mt-4 mx-4">
+                                        <span className="text-gray-700 dark:text-gray-400">
+                                            Duration
+                                        </span>
+                                        <Select 
+                                            className={ "border-indigo-100 focus:border-indigo-400  block w-full  mt-1 text-sm dark:text-gray-300 dark:bg-gray-700  focus:outline-none focus:shadow-outline-red input input-sm"}
+                                            
+                                            disabled={loading == false ? '':true}
+                                            name="duration[]"
+                                            
+                                        >
+                                        <option value="daily">Daily</option>
+                                        <option value="weekly">Weekly</option>
+                                        <option value="monthly">Monthly</option>
+                                        <option value="yearly">Yearly</option>
+                                        </Select>
+                                    </Label>
+                                </div>
+                                <div className="flex flex-no-wrap">
+                                    <Label className="w-2/5 block text-sm mb-4 mt-4">
+                                        <span className="text-gray-700 dark:text-gray-400">
+                                            Price
+                                        </span>
+                                        <Input 
+                                            type="number" 
+                                            className={ "border-indigo-100 focus:border-indigo-400 block w-full  mt-1 text-sm dark:text-gray-300 dark:bg-gray-700  focus:outline-none focus:shadow-outline-red input input-sm"}
+                                            name="price[]"
+                                            placeholder="Insert price"
+                                          
+                                            disabled={loading == false ? '':true}
+                                          
+                                        >
+                                        </Input>
+                                    </Label>
+                                    <Label className="w-2/5 block text-sm mb-4 mt-4 mx-4">
+                                        <span className="text-gray-700 dark:text-gray-400">
+                                            Discount
+                                        </span>
+                                        <Input 
+                                            type="number" 
+                                            className={ "border-indigo-100 focus:border-indigo-400 block w-full  mt-1 text-sm dark:text-gray-300 dark:bg-gray-700  focus:outline-none focus:shadow-outline-red input input-sm"}
+                                            
+                                            placeholder="Insert discount"
+                                            name="discount[]"
+                                            disabled={loading == false ? '':true}
+                                           
+                                        >
+                                        </Input>
+                                    </Label>
+                                </div>
+                            </div>
+                            )
+                        })}
                        
                     
                         {!loading &&   <Button  className="float-right inline-block px-6 py-2.5 bg-indigo-400 text-white font-medium text-xs leading-tight rounded-full shadow-md hover:bg-indigo-800 hover:shadow-lg focus:bg-indigo-800  focus:outline-none focus:ring-0 transition duration-150 uppercase ">Submit</Button>}
