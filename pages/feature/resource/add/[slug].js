@@ -32,6 +32,9 @@ const Add = (props) => {
     const [errors,setError] = useState([]);
      
     const [resource,setResource] = useState([props.data.record[0].slug]);
+    const [values,setValues] = useState(['n']);
+    const [capacity,setCapacity] = useState(['']);
+
    
     const [message,setMessage] = useState(null);
     const [showToast,setShowToast] = useState(false);
@@ -56,11 +59,20 @@ const Add = (props) => {
        if(props.data.record.length > 0 ){
             props.data.record.map((value,index) => {
                 setResource([...resource,value.slug])
+                setValues([...values,'n'])
+                setCapacity([...values,''])
+
+
             })
        }
 
     },[props])
-   
+   console.log(values);
+
+   const handleState = (index,e) => {
+        console.log(index);
+        console.log(e.target.value);
+   }
    const handleCloseToast = () =>{
         setShowToast(false);
         setMessage(null)
@@ -171,7 +183,7 @@ const Add = (props) => {
                                         return (
                                             
                                             <li key={value.slug}>
-                                                <input type="checkbox" id={value.slug} value="" className="hidden peer" required=""/>
+                                                <input type="checkbox" id={value.slug} value="y" className="hidden peer" defaultChecked={values[index] == 'y' ? true : false} onChange={ (e) => handleState(index,e)} />
                                                 <label htmlFor={value.slug} className="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border-2 border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-blue-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">                           
                                                     <div className="block">
                                                     
