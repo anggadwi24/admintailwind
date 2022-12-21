@@ -34,7 +34,7 @@ const Add = () => {
         api
         .post("/api/feature/store",{name,description})
         .then((res) =>{
-            console.log(res)
+            
             setLoading(false)
            
             if(res.data.statusCode == 200){

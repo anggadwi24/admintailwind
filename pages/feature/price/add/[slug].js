@@ -25,15 +25,40 @@ const Add = () => {
     const router = useRouter();
     const {slug} = router.query;
     const token = Cookies.get('token');
-   
+    const { query } = useRouter();
    
     const [loading,setLoading] = useState(false);
     const [errors,setError] = useState([]);
     const [layout,setLayout] = useState([1]);
 
+    const [message,setMessage] = useState(null);
+    const [showToast,setShowToast] = useState(false);
+    const [type,setType] = useState('success');
+    useEffect( () => {
+      
+        if(router.query.type){
+           
+            if(router.query.type == 'success'){
+               setType('success');
+                
+            }else{
+                setType('error');
 
-    
-  
+            }
+            setMessage(query['message'])
+            setShowToast(true);
+        }
+       
+
+    })
+   const handleCloseToast = () =>{
+        setShowToast(false);
+        setMessage(null)
+        router.push(`/feature/price/add/${slug}`)
+
+        delete router.query.success;
+
+   }
     
     const handleIncrement = () =>{
        
@@ -77,11 +102,20 @@ const Add = () => {
             
             setLoading(false)
            
-           console.log(res)
+            if(res.data.statusCode == 200){
+                router.push(
+                    { pathname: `/feature/resource/add/${res.data.slug}`, query: { message: "Feature price successfuly created",type:'success' } },`/feature/resource/add/${res.data.slug}?type=success`
+                   
+                  );
+            }else{
+                setError(res.data.message);
+               
+            }
         })
 
         
     }
+    
     if(!data){
         return (
             <MainLayout  user={user} title="Resource - JUAPOS" page="Resource" breadcrumb={breadcrumb}>
@@ -96,7 +130,7 @@ const Add = () => {
            
         
     }
-   
+  
    
     if(data && data.statusCode != 200){
          router.push(
@@ -169,7 +203,7 @@ const Add = () => {
                     <form onSubmit={submitHandler}>
                         
                         {layout.map( (value,index) => {
-                            
+                           
                             return (
                                 <div key={index}>
                                 <div className="flex flex-no-wrap">
@@ -179,22 +213,29 @@ const Add = () => {
                                         </span>
                                         <Input 
                                             type="text" 
-                                            className={ "border-indigo-100 focus:border-indigo-400 block w-full  mt-1 text-sm dark:text-gray-300 dark:bg-gray-700  focus:outline-none focus:shadow-outline-red input input-sm"}
+                                            className={ (errors[`name.${index}`] ? ' border-red-300 focus:border-red-400' : ' border-indigo-100 focus:border-indigo-400') +  "  block w-full  mt-1 text-sm dark:text-gray-300 dark:bg-gray-700  focus:outline-none focus:shadow-outline-red input input-sm"}
                                             name="name[]"
                                             key={index}
                                             placeholder="Insert price name"
-                                           
+
                                             disabled={loading == false ? '':true}
                                             
                                         >
                                         </Input>
+                                        {errors && errors[`name.${index}`] &&
+                                            errors[`name.${index}`].map((value,index) => {
+                                                return (
+                                                    <p className="mt-2 text-sm text-red-600 dark:text-red-500" key={index}><span className="font-medium">Oops!</span> {value} </p>
+                                                )
+                                            })
+                                        }
                                     </Label>
                                     <Label className="w-2/5 block text-sm mb-4 mt-4 mx-4">
                                         <span className="text-gray-700 dark:text-gray-400">
                                             Duration
                                         </span>
                                         <Select 
-                                            className={ "border-indigo-100 focus:border-indigo-400  block w-full  mt-1 text-sm dark:text-gray-300 dark:bg-gray-700  focus:outline-none focus:shadow-outline-red input input-sm"}
+                                            className={ (errors[`duration.${index}`] ? ' border-red-300 focus:border-red-400' : ' border-indigo-100 focus:border-indigo-400') +  "  block w-full  mt-1 text-sm dark:text-gray-300 dark:bg-gray-700  focus:outline-none focus:shadow-outline-red input input-sm"}
                                             
                                             disabled={loading == false ? '':true}
                                             name="duration[]"
@@ -206,6 +247,13 @@ const Add = () => {
                                         <option value="yearly">Yearly</option>
                                         </Select>
                                     </Label>
+                                    {errors && errors[`duration.${index}`] &&
+                                        errors[`duration.${index}`].map((value,index) => {
+                                            return (
+                                                <p className="mt-2 text-sm text-red-600 dark:text-red-500" key={index}><span className="font-medium">Oops!</span> {value} </p>
+                                            )
+                                        })
+                                    }
                                 </div>
                                 <div className="flex flex-no-wrap">
                                     <Label className="w-2/5 block text-sm mb-4 mt-4">
@@ -214,7 +262,7 @@ const Add = () => {
                                         </span>
                                         <Input 
                                             type="number" 
-                                            className={ "border-indigo-100 focus:border-indigo-400 block w-full  mt-1 text-sm dark:text-gray-300 dark:bg-gray-700  focus:outline-none focus:shadow-outline-red input input-sm"}
+                                            className={ (errors[`price.${index}`] ? ' border-red-300 focus:border-red-400' : ' border-indigo-100 focus:border-indigo-400') + " block w-full  mt-1 text-sm dark:text-gray-300 dark:bg-gray-700  focus:outline-none focus:shadow-outline-red input input-sm"}
                                             name="price[]"
                                             placeholder="Insert price"
                                           
@@ -222,6 +270,13 @@ const Add = () => {
                                           
                                         >
                                         </Input>
+                                        {errors && errors[`price.${index}`] &&
+                                            errors[`price.${index}`].map((value,index) => {
+                                                return (
+                                                    <p className="mt-2 text-sm text-red-600 dark:text-red-500" key={index}><span className="font-medium">Oops!</span> {value} </p>
+                                                )
+                                            })
+                                        }
                                     </Label>
                                     <Label className="w-2/5 block text-sm mb-4 mt-4 mx-4">
                                         <span className="text-gray-700 dark:text-gray-400">
@@ -229,7 +284,7 @@ const Add = () => {
                                         </span>
                                         <Input 
                                             type="number" 
-                                            className={ "border-indigo-100 focus:border-indigo-400 block w-full  mt-1 text-sm dark:text-gray-300 dark:bg-gray-700  focus:outline-none focus:shadow-outline-red input input-sm"}
+                                            className={ (errors[`discount.${index}`] ? ' border-red-300 focus:border-red-400' : ' border-indigo-100 focus:border-indigo-400') + " block w-full  mt-1 text-sm dark:text-gray-300 dark:bg-gray-700  focus:outline-none focus:shadow-outline-red input input-sm"}
                                             
                                             placeholder="Insert discount"
                                             name="discount[]"
@@ -237,6 +292,13 @@ const Add = () => {
                                            
                                         >
                                         </Input>
+                                        {errors && errors[`discount.${index}`] &&
+                                        errors[`discount.${index}`].map((value,index) => {
+                                            return (
+                                                <p className="mt-2 text-sm text-red-600 dark:text-red-500" key={index}><span className="font-medium">Oops!</span> {value} </p>
+                                            )
+                                        })
+                                    }
                                     </Label>
                                 </div>
                             </div>
@@ -249,6 +311,25 @@ const Add = () => {
 
                     </form>
                 </div>
+                {showToast &&  <div id="toast-success" className="flex absolute top-20 right-5 items-center p-4 mb-4 w-full max-w-xs text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
+                
+                    <div className={(type == 'success' ? " text-green-500 bg-green-100 " : " text-red-500 bg-red-200 ") + "inline-flex flex-shrink-0 justify-center items-center w-8 h-8 rounded-lg dark:bg-green-800 dark:text-green-200"}>
+                
+                        {type == 'success' && <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"></path></svg> }
+                        {type == 'error' && <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                            </svg>
+                        }
+                        <span className="sr-only">Check icon</span>
+                    </div>
+                    <div className="ml-3 text-sm font-normal">{query['message']}</div>
+                    <button type="button" onClick={() => handleCloseToast()} className="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-success" aria-label="Close">
+                        <span className="sr-only">Close</span>
+                        <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
+                    </button>
+        
+        
+                </div> }
                 </MainLayout>
               )
         }else{
