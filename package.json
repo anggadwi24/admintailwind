@@ -11,6 +11,7 @@
     "format:fix": "prettier --wire --ignore-path .gitignore ."
   },
   "dependencies": {
+    "@material-tailwind/react": "^1.2.4",
     "axios": "^1.2.1",
     "daisyui": "^2.43.0",
     "eslint": "8.29.0",

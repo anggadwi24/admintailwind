@@ -42,7 +42,7 @@ const Modal = ({ show, onClose,setSuccess, children, title,url,...props }) => {
           setShowModal(true);
           if(res.data.statusCode == 200){
               setType('success');
-              setMessage('Users successfully deleted');
+              setMessage(res.data.message);
               setTitles('Successfull');  
               setSuccess(true);
               

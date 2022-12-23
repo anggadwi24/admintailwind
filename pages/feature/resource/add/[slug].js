@@ -31,7 +31,7 @@ const Add = (props) => {
     const [loading,setLoading] = useState(false);
     const [errors,setError] = useState([]);
      
-    const [resource,setResource] = useState([props.data.record[0].slug]);
+    // const [resource,setResource] = useState([props.data.record[0].slug]);
     const [values,setValues] = useState(['n']);
     const [capacity,setCapacity] = useState(['']);
 
@@ -56,23 +56,56 @@ const Add = (props) => {
             setShowToast(true);
         }
         
-       if(props.data.record.length > 0 ){
-            props.data.record.map((value,index) => {
-                setResource([...resource,value.slug])
-                setValues([...values,'n'])
-                setCapacity([...values,''])
-
-
-            })
-       }
+        updateState(props)
 
     },[props])
-   console.log(values);
 
+   
+    const updateState = (props) => {
+        if(props.data.record.length > 0 ){
+            let newVal  = [];
+            let newCap = [];
+            for(let a = 0;a < props.data.record.length; a++){
+                newVal = [...newVal,'n'];
+                newCap = [...newCap,''];
+
+              
+            }
+            
+            setValues(newVal)
+            setCapacity(newCap)
+
+            
+       }
+    }
+   
    const handleState = (index,e) => {
-        console.log(index);
-        console.log(e.target.value);
+        
+        const newItems = [...values];
+        
+        if(e.target.checked){
+            newItems[index] = 'y';
+        }else{
+            newItems[index]  = 'n';
+        }
+       
+
+        setValues(newItems)
+       
+
    }
+  
+   const handleCapacity = (index,e) => {
+        const newItems = [...capacity];
+            
+       
+        newItems[index] = e.target.value;
+       
+    
+
+        setCapacity(newItems)
+   }
+   
    const handleCloseToast = () =>{
         setShowToast(false);
         setMessage(null)
@@ -88,7 +121,25 @@ const Add = (props) => {
     const {data,error,mutate} = useSWR([`https://kasirku.juastudio.com/api/feature/edit/${slug}`,token],fetcher);
     const submitHandler = async (e) => {
         e.preventDefault();
-        
+        api.defaults.headers.Authorization = `Bearer ${token}`
+        api
+        .post(`/api/feature/store/resource/${slug}`,{value:values,capacity:capacity})
+        .then((res) =>{
+            
+            setLoading(false)
+           
+            if(res.data.statusCode == 200){
+                router.push(
+                    { pathname: `/feature`, query: { message: "Feature price successfuly created",type:'success' } },`/feature`
+                   
+                  );
+            }else{
+                setError(res.data.message);
+               
+            }
+        })
+
+
 
         
      
@@ -183,21 +234,19 @@ const Add = (props) => {
                                         return (
                                             
                                             <li key={value.slug}>
-                                                <input type="checkbox" id={value.slug} value="y" className="hidden peer" defaultChecked={values[index] == 'y' ? true : false} onChange={ (e) => handleState(index,e)} />
+                                                <input type="checkbox"  disabled={loading == false ? '':true} id={value.slug} value="y" className="hidden peer" defaultChecked={values[index] == 'y' ? true : false} onChange={ (e) => handleState(index,e)} />
                                                 <label htmlFor={value.slug} className="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border-2 border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-blue-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">                           
                                                     <div className="block">
                                                     
                                                         <div className="w-full text-lg font-semibold">{value.name}</div>
                                                         <div className="w-full text-sm">{value.description}</div>
                                                         <Input 
-                                                            type="text" 
+                                                            type="number" 
                                                             className={"  border-indigo-100 focus:border-indigo-400 block w-full  mt-1 text-sm dark:text-gray-300 dark:bg-gray-700  focus:outline-none focus:shadow-outline-red input input-sm"}
-                                                            name="name[]"
-                                                            
-                                                            placeholder="Insert capacity"
-                
-                                                            
-                                                            
+                                                            value={capacity[index]}
+                                                            onChange={(e) => handleCapacity(index,e)}
+                                                            placeholder="Insert capacity"  
+                                                            disabled={loading == false ? '':true}  
                                                         >
                                                         </Input>
                                                     </div>
