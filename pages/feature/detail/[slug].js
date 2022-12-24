@@ -4,6 +4,7 @@ import api from "../../../lib/Api";
 import MainLayout from "../../../layouts/MainLayout";
 import { useAuth } from "../../../contexts/auth";
 import { useState } from "react";
+import Link from "next/link";
 
 
 const Detail = (props) => {
@@ -39,8 +40,8 @@ const Detail = (props) => {
                 Detail Resource
             </h4>
         </div>
-        <div className="flex flex-wrap">
-            <div className="w-3/4">
+        <div className="flex  flex-col sm:flex-col md:flex-col lg:flex-row xl:flex-row">
+            <div className="w-full  sm:w-auto md:w-full lg:w-3/4 xl:w-3/4 ">
                 <div className="px-4 py-3 m-2  bg-white rounded-lg shadow-md dark:bg-gray-800">
                     <h1 className="text-gray-800 text-3xl font-bold ">{props.data.feature.name}</h1>
                     <p className="text-gray-500 mt-0 text-sm font-thin">
@@ -48,7 +49,7 @@ const Detail = (props) => {
                     </p>
                  
                     {props.data.resource.length > 0 && 
-                                    <ul role="list" className=" grid grid-cols-3 my-4">
+                                    <ul role="list" className=" grid  md:grid-cols-3 sm-grid-cols-1  my-4">
                                         
                                         {props.data.resource.map( (resource,index) => {
                                                 return (
@@ -69,10 +70,30 @@ const Detail = (props) => {
                    
                 </div>
             </div>
-            <div className="w-1/4  ">
-                <div className="px-4 py-3 m-2  bg-white rounded-lg shadow-md dark:bg-gray-800">
+            <div className="w-full sm:w-full lg:w-1/4 xl:w-1/4  ">
+                {props.data.price && props.data.price.length > 0 && 
+                    props.data.price.map( (value,index) => {
+                        return (
+                            <div key={value.slug} className="relative px-4 py-10 m-2  bg-white rounded-lg shadow-md dark:bg-gray-800">
+                                <div className="flex items-baseline text-gray-900 dark:text-white">
+                                         <span className="text-lg font-semibold">Rp.</span>
+                                         <span className="text-2xl font-extrabold tracking-tight">{value.price.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')}</span>
+                                         <span className="ml-1 text-sm font-normal text-gray-500 dark:text-gray-400">/{value.duration}</span>
+                                        
+                                </div>
+                                <Link href={`/feature/price/${props.data.feature.slug}/${value.slug}`} className="absolute top-0 right-0 ">
+                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                                        </svg>
 
-                </div>
+                                </Link>
+                            </div>
+
+                        )
+                    })
+                    
+                }
+               
             </div>
 
         </div>
