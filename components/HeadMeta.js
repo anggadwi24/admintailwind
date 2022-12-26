@@ -6,7 +6,7 @@ export default function HeadMeta(props) {
     <>
        <Head>
         <title>{props.title}</title>
-        <link rel="shortcut icon" href="/assets/img/fav.png" type="image/x-icon"/>  
+        <link rel="shortcut icon" href="/assets/img/favicon.ico" type="image/x-icon"/>  
      
         
 

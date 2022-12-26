@@ -43,6 +43,7 @@ const Login = () => {
                     <title>
                             LOGIN - JUAPOS
                     </title>
+                    <link rel="shortcut icon" href="/assets/img/favicon.ico" />
                 </Head>
                     
                 <div className="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900">

@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@material-tailwind/react": "^1.2.4",
+    "@nextui-org/react": "^1.0.0-beta.11",
     "axios": "^1.2.1",
     "daisyui": "^2.43.0",
     "eslint": "8.29.0",

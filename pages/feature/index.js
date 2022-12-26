@@ -73,9 +73,10 @@ const Index = () => {
    
    
     if(data && data.statusCode != 200){
-        return { 
-            notFound: true
-          }
+        router.push(
+            { pathname: "/", query: { message: data.message,type:'error' } },"/"
+           
+          );
     }
     
     
