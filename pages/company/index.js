@@ -100,7 +100,7 @@ const Company = () => {
                         <div key={value.slug} className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
                             <div className="flex justify-end px-4 pt-4">
                                 <Dropdown>
-                                    <Dropdown.Trigger flat color='light'> 
+                                    <Dropdown.Trigger flat="true" color='light'> 
                                         <svg className="w-6 h-6 cursor-pointer" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"></path></svg>
                                     </Dropdown.Trigger>
                                     <Dropdown.Menu aria-label="Static Actions">

@@ -5,12 +5,17 @@ import { useRouter } from 'next/router';
 import Label from '../../components/Label';
 import Input from '../../components/Input';
 import Select from '../../components/Select';
+import Textarea from '../../components/Textarea';
 import api from '../../lib/Api';
 import Cookies from 'js-cookie';
 import { useState } from 'react';
 import useSWR, { mutate } from "swr";
 import axios from "axios";
-import { select } from '@material-tailwind/react';
+import { Combobox, Transition } from '@headlessui/react'
+import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
+import { Fragment } from 'react';
+import Autocomplete from '../../components/Autocomplete';
+
 
 const fetcher = (url,token) => axios.get(url,{headers:{ Authorization: "Bearer " + token } }).then(res => res.data)
 
@@ -21,11 +26,29 @@ const Add = () => {
     const token = Cookies.get('token')
     const [province,setProvince] = useState('default');
     const [city,setCity] = useState('default')
-    const [selectCity,setSelectCity] = useState([]);
-    const breadcrumb = [{'name':'Company','url':'/company'},{'name':'Add','url':'/company/add'}];
+    const [name,setName] = useState('')
+    const [email,setEmail] = useState('')
+    const [address,setAddress] = useState('')
+    const [postcode, setPostcode] = useState('')
+    const [category,setCategory] = useState('')
 
+
+    const [selectCity,setSelectCity] = useState([]);
+  
+    const [errors,setErrors] = useState([])
+    const breadcrumb = [{'name':'Company','url':'/company'},{'name':'Add','url':'/company/add'}];
+    const {data:categories,errorc} = useSWR([`https://kasirku.juastudio.com/api/category`,token],fetcher);
+   
+    const [query, setQuery] = useState('')
+   
+    
+
+    
+     
     const {data:provinces,error} = useSWR([`https://kasirku.juastudio.com/api/province`,token],fetcher);
-    // console.log(provinces)
+    
+
+   
     const handleProvince = async  (event) =>{
        
         setProvince(event.target.value);
@@ -54,21 +77,34 @@ const Add = () => {
                 <div className="flex flex-wrap -mx-3 mb-6">
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <Label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
-                            Name
+                            Company Name
                         </Label>
-                        <Input className={"  border-indigo-100 focus:border-indigo-400 block w-full  mt-1 text-sm dark:text-gray-300 dark:bg-gray-700  focus:outline-none focus:shadow-outline-red input input-md"} id="grid-first-name" type="text" placeholder="Jane"/>
-                        <p className="text-red-500 text-xs italic">Please fill out this field.</p>
+                        <Input value={name} onChange={ (e) => setName(e.target.value)} className={"  border-indigo-100 focus:border-indigo-400 block w-full  mt-1 text-sm dark:text-gray-300 dark:bg-gray-700  focus:outline-none focus:shadow-outline-red input input-md"} id="grid-first-name" type="text" placeholder="Company Name"/>
+                        {/* <p className="text-red-500 text-xs italic">Please fill out this field.</p> */}
                     </div>
-                    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <div className="w-full md:w-2/6 px-3 mb-6 md:mb-0">
+                        <Label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
+                            Category
+                        </Label>
+                        {categories && categories.record.length > 0 && 
+                            <Autocomplete options={categories.record} 
+                            value={category}
+                            onChange={setCategory}
+                        />
+                        }
+                        
+                    </div>
+                    
+                </div>
+                <div className="flex flex-wrap -mx-3 mb-6">
+                    <div className="w-full md:w-2/6 px-3 mb-6 md:mb-0">
                         <Label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
                             Email
                         </Label>
-                        <Input className={"  border-indigo-100 focus:border-indigo-400 block w-full  mt-1 text-sm dark:text-gray-300 dark:bg-gray-700  focus:outline-none focus:shadow-outline-red input input-md"} id="grid-first-name" type="text" placeholder="Jane"/>
-                        <p className="text-red-500 text-xs italic">Please fill out this field.</p>
+                        <Input value={email} onChange={ (e) => setEmail(e.target.value)} className={"  border-indigo-100 focus:border-indigo-400 block w-full  mt-1 text-sm dark:text-gray-300 dark:bg-gray-700  focus:outline-none focus:shadow-outline-red input input-md"} id="grid-first-name" type="text" placeholder="company@gmail.com"/>
+                      
                     </div>
-                </div>
-                <div className="flex flex-wrap -mx-3 mb-6">
-                    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <div className="w-full md:w-2/6 px-3 mb-6 md:mb-0">
                         <Label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
                             Provinsi
                         </Label>
@@ -82,9 +118,9 @@ const Add = () => {
                                 })
                             }
                         </Select>
-                        <p className="text-red-500 text-xs italic">Please fill out this field.</p>
+                       
                     </div>
-                    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <div className="w-full md:w-2/6 px-3 mb-6 md:mb-0">
                         <Label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
                             City
                         </Label>
@@ -102,7 +138,7 @@ const Add = () => {
                                 <option disabled={true} value="null">Select province first</option>
                             }
                         </Select>
-                        <p className="text-red-500 text-xs italic">Please fill out this field.</p>
+                      
                     </div>
                 </div>
                 <div className="flex flex-wrap -mx-3 mb-6">
@@ -110,15 +146,17 @@ const Add = () => {
                         <Label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
                             Address
                         </Label>
-                        <Input className={"  border-indigo-100 focus:border-indigo-400 block w-full  mt-1 text-sm dark:text-gray-300 dark:bg-gray-700  focus:outline-none focus:shadow-outline-red input input-md"} id="grid-first-name" type="text" placeholder="Jane"/>
-                        <p className="text-red-500 text-xs italic">Please fill out this field.</p>
+                        <Textarea value={address} onChange={ (e) => setAddress(e.target.value)} className={"  border-indigo-100 focus:ring-indigo-400 focus:border-indigo-400block p-2.5 text-sm mt-1 w-full  border  rounded-lg   focus:outline-none"} id="grid-first-name" placeholder='Company address'>
+                            
+                        </Textarea>
+                        
                     </div>
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <Label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
                             Post Code
                         </Label>
-                        <Input className={"  border-indigo-100 focus:border-indigo-400 block w-full  mt-1 text-sm dark:text-gray-300 dark:bg-gray-700  focus:outline-none focus:shadow-outline-red input input-md"} id="grid-first-name" type="text" placeholder="Jane"/>
-                        <p className="text-red-500 text-xs italic">Please fill out this field.</p>
+                        <Input value={postcode} onChange={ (e) => setPostcode(e.target.value)} className={"  border-indigo-100 focus:border-indigo-400 block w-full  mt-1 text-sm dark:text-gray-300 dark:bg-gray-700  focus:outline-none focus:shadow-outline-red input input-md"} id="grid-first-name" type="number" placeholder="XXXXX"/>
+                        
                     </div>
                 </div>
             </form>

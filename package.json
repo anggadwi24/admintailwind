@@ -11,6 +11,8 @@
     "format:fix": "prettier --wire --ignore-path .gitignore ."
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.7",
+    "@heroicons/react": "^2.0.13",
     "@material-tailwind/react": "^1.2.4",
     "@nextui-org/react": "^1.0.0-beta.11",
     "axios": "^1.2.1",
