@@ -65,7 +65,7 @@ export default function Autocomplete({options, value, onChange}) {
         }
     },[]);
 
-    return (<div className="relative w-64 "  >
+    return (<div className="relative w-full "  >
 
         <input ref={ref} type="text" className="border-indigo-100 focus:border-indigo-400 block w-full  mt-1 text-sm dark:text-gray-300 dark:bg-gray-700  focus:outline-none focus:shadow-outline-red input input-md" 
             value={value}

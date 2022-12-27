@@ -82,7 +82,7 @@ const Add = () => {
                         <Input value={name} onChange={ (e) => setName(e.target.value)} className={"  border-indigo-100 focus:border-indigo-400 block w-full  mt-1 text-sm dark:text-gray-300 dark:bg-gray-700  focus:outline-none focus:shadow-outline-red input input-md"} id="grid-first-name" type="text" placeholder="Company Name"/>
                         {/* <p className="text-red-500 text-xs italic">Please fill out this field.</p> */}
                     </div>
-                    <div className="w-full md:w-2/6 px-3 mb-6 md:mb-0">
+                    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <Label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
                             Category
                         </Label>
