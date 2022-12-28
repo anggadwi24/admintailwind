@@ -114,6 +114,7 @@ const Company = () => {
                             </div>
                             <div className="flex flex-col items-center pb-10">
                                 {!value.icon && <Image src='/assets/img/icon.png' alt={value.name} height={100} width={100} className="w-24 h-24 mb-3 rounded-full shadow-lg"/> }
+                                {value.icon && <Image src={`https://kasirku.juastudio.com/uploads/company/${value.icon}`} alt={value.name} height={100} width={100} className="w-24 h-24 mb-3 rounded-full shadow-lg"/> }
                                 <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">{value.name}</h5>
                                 <span className="text-sm text-gray-500 dark:text-gray-400">{value.category}</span>
                                 <span className="text-sm text-gray-500 dark:text-gray-400 flex" title="Expiry">
