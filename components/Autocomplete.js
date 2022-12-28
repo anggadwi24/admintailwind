@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react"
 
-export default function Autocomplete({options, value, onChange}) {
+export default function Autocomplete({options, value, onChange,className = "",disabled = false}) {
     
     const [showOptions, setShowOptions] = useState(false)
     const [cursor, setCursor] = useState(-1)
@@ -67,11 +67,12 @@ export default function Autocomplete({options, value, onChange}) {
 
     return (<div className="relative w-full "  >
 
-        <input ref={ref} type="text" className="border-indigo-100 focus:border-indigo-400 block w-full  mt-1 text-sm dark:text-gray-300 dark:bg-gray-700  focus:outline-none focus:shadow-outline-red input input-md" 
+        <input ref={ref} type="text" className={className} 
             value={value}
             onChange={e => handleChange(e.target.value)}
             onFocus={()=> setShowOptions(true)} 
             onKeyDown={handleNav}
+            disabled={disabled}
             />
 
         <ul className={`absolute w-full rounded-lg shadow-lg ${!showOptions && 'hidden'} select-none`}>
