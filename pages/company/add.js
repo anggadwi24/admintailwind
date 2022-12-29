@@ -88,7 +88,10 @@ const Add = () => {
         .then((res) =>{
            setLoading(false)
             if(res.data.statusCode === 200){
-
+                router.push(
+                    { pathname: `/company/payment/${res.data.slug}`, query: { message: "Company successfuly created",type:'success' } },`/company/payment/${res.data.slug}?type=success`
+                   
+                  );
             }else if(res.data.statusCode === 422){
                 setValidations(res.data.message)
                
