@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
-import { Dropdown } from "@nextui-org/react";
+
 
 const fetcher = (url,token) => axios.get(url,{headers:{ Authorization: "Bearer " + token } }).then(res => res.data)
 
@@ -48,6 +48,7 @@ const Company = () => {
         router.push({pathname :'/company',query: {...query,page}})
 
     },[page])
+    
     
     if(!data){
         if(!data){
@@ -99,18 +100,8 @@ const Company = () => {
                     return ( 
                         <div key={value.slug} className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
                             <div className="flex justify-end px-4 pt-4">
-                                <Dropdown>
-                                    <Dropdown.Trigger flat="true" color='light'> 
-                                        <svg className="w-6 h-6 cursor-pointer" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"></path></svg>
-                                    </Dropdown.Trigger>
-                                    <Dropdown.Menu aria-label="Static Actions">
-                                        <Dropdown.Item key="new">Edit</Dropdown.Item>
-                                     
-                                        <Dropdown.Item key="delete" withDivider color="error">
-                                        Delete 
-                                        </Dropdown.Item>
-                                    </Dropdown.Menu>
-                                 </Dropdown>
+                           
+                               
                             </div>
                             <div className="flex flex-col items-center pb-10">
                                 {!value.icon && <Image src='/assets/img/icon.png' alt={value.name} height={100} width={100} className="w-24 h-24 mb-3 rounded-full shadow-lg"/> }
@@ -126,7 +117,17 @@ const Company = () => {
                                 </span>
 
                                 <div className="flex mt-4 space-x-3 md:mt-6">
-                                    <Link href={`/company/${value.slug}`} className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Detail</Link>
+                                    <Link href={`/company/${value.slug}`} className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                    </Link> 
+                                    <Link href={`/company/${value.slug}/edit`} className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-yellow-700 rounded-lg hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-300 dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-800">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                                        </svg>
+                                    </Link>
                                    
                                 </div>
                             </div>
