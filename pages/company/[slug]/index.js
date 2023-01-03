@@ -6,6 +6,7 @@ import api from "../../../lib/Api";
 import Image from "next/image";
 import Moment from "moment"
 import 'moment/locale/id';
+import { User } from "@nextui-org/react";
 import {
     Tabs,
     TabsHeader,
@@ -13,10 +14,11 @@ import {
     Tab,
     TabPanel,
   } from "@material-tailwind/react";
+import Link from "next/link";
 
 const Detail = (props) => {
     const data = props.data.data
-    console.log(data)
+   
   
     const {user} = useAuth();
     const router = useRouter();
@@ -169,10 +171,10 @@ const Detail = (props) => {
                                         </div>
                                         <div className="flex-1 min-w-0">
                                             <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
-                                                #{value.invoice_no}
+                                                #{value.invoice}
                                             </p>
-                                            <p className="text-sm text-gray-500 truncate dark:text-gray-400">
-                                               FEATURE | DURATION | {Moment(value.date).format("DD/MM/YYYY")}
+                                            <p className="text-sm text-gray-500 truncate dark:text-gray-400 uppercase">
+                                               {value.feature} | {value.price} | {Moment(value.date).format("DD/MM/YYYY")}
                                             </p>
                                         </div>
                                         <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
@@ -189,7 +191,45 @@ const Detail = (props) => {
                         INI USER 2
                     </TabPanel>
                     <TabPanel value={3}>
-                        INI USER 3
+                        <div className="flex justify-end">
+                            <Link className="bg-indigo-400 px-4 py-2 rounded-full text-white hover:bg-indigo-800" href={`/company/${slug}/user/add`}>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z" />
+                                </svg>
+
+                            </Link>
+                        </div>
+                        <div className="grid grid-cols-1 lg:grid-cols-3 pt-3">
+                            {data.users && data.users.length > 0 && data.users.map( (value,index) => {
+                                return (
+                                    <div className="flex justify-start" key={value.email}>
+                                        <User
+                                            src={`https://kasirku.juastudio.com/uploads/user/${value.photo}`}
+                                            name={value.nickname}
+                                            bordered
+                                            description={value.email}
+                                        />
+                                        <div className="justify-center mx-6">
+                                            <Link href={`/company/${slug}/user/${value.email}/edit`} className="mx-3">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 inline-block ">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                                                </svg>
+                                            </Link>
+                                            <Link href={`/company/${slug}/user/${value.email}`} className="mr-3">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 inline-block">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                </svg>
+
+                                            </Link>
+
+                                        </div>
+                                    </div>
+                                )
+                            })}
+                            
+                         
+                        </div>
                     </TabPanel>
                   
                 </TabsBody>
